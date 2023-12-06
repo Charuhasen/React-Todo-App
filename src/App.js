@@ -1,15 +1,33 @@
-import "./App.css";
+import React, { useState } from "react";
 import NavBar from "./components/NavBar";
 import TodoTask from "./components/TodoTask";
+import "./App.css";
+import EmptyContainer from "./components/EmptyContainer";
 
 function App() {
+    const [todo, setTodo] = useState([]);
+
+    const addTodo = (todo) => {
+        setTodo((prev) => [...prev, todo]);
+    };
+
     return (
         <>
-            <NavBar />
-            <TodoTask
-                taskName="Add functionality"
-                taskDescription="Add description text box for modal"
-            />
+            <header>
+                <NavBar onClickAddTodo={addTodo} />
+            </header>
+            <body>
+                {todo.length > 0 ? (
+                    todo.map((todo) => (
+                        <TodoTask
+                            taskName={todo.todo}
+                            taskDescription={todo.description}
+                        />
+                    ))
+                ) : (
+                    <EmptyContainer />
+                )}
+            </body>
         </>
     );
 }
